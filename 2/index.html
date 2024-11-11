@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function displayCurrentDateTime() {
+    const now = new Date();
+    const dateInfo = `
+        წელი: ${now.getFullYear()}
+        თვე: ${now.getMonth() + 1}
+        რიცხვი: ${now.getDate()}
+        კვირის დღე: ${now.getDay()}
+        საათი: ${now.getHours()}
+        წუთი: ${now.getMinutes()}
+        წამი: ${now.getSeconds()}
+        მილიწამი: ${now.getMilliseconds()}
+    `;
+    alert(dateInfo);
+}
+
+displayCurrentDateTime();
+    </script>
+</body>
+</html>

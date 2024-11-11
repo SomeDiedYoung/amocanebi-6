@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function daysSinceYearStart() {
+    const inputDate = prompt("შემოიტანეთ თარიღი (ფორმატში: YYYY-MM-DD):");
+    const userDate = new Date(inputDate);
+    const startOfYear = new Date(userDate.getFullYear(), 0, 1);
+    const diffInDays = Math.floor((userDate - startOfYear) / (1000 * 60 * 60 * 24));
+
+    alert(`წლის დასაწყისიდან ${diffInDays} დღეა გასული.`);
+}
+
+daysSinceYearStart();
+    </script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ქართული კალენდარი - თვის და წლის არჩევა</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        .calendar {
+            width: 300px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .calendar h2 {
+            margin: 0;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .calendar select {
+            margin: 5px;
+            padding: 5px;
+        }
+        .calendar table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .calendar th {
+            color: #555;
+        }
+        .calendar th, .calendar td {
+            padding: 8px;
+            width: 14.28%;
+            text-align: center;
+        }
+        .calendar td {
+            cursor: pointer;
+        }
+        .calendar td:hover {
+            background-color: #f0f0f0;
+        }
+        .calendar .today {
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calendar">
+    <h2>ქართული კალენდარი</h2>
+    <div>
+        <select id="monthSelect"></select>
+        <select id="yearSelect"></select>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>ორშ</th>
+                <th>სამ</th>
+                <th>ოთხ</th>
+                <th>ხუთ</th>
+                <th>პარ</th>
+                <th>შაბ</th>
+                <th>კვი</th>
+            </tr>
+        </thead>
+        <tbody id="calendarBody"></tbody>
+    </table>
+</div>
+
+<script>
+    const monthNames = ["იანვარი", "თებერვალი", "მარტი", "აპრილი", "მაისი", "ივნისი", "ივლისი", "აგვისტო", "სექტემბერი", "ოქტომბერი", "ნოემბერი", "დეკემბერი"];
+    const today = new Date();
+    let currentMonth = today.getMonth();
+    let currentYear = today.getFullYear();
+
+    function populateSelectors() {
+        const monthSelect = document.getElementById("monthSelect");
+        const yearSelect = document.getElementById("yearSelect");
+
+        monthNames.forEach((month, index) => {
+            const option = document.createElement("option");
+            option.value = index;
+            option.text = month;
+            if (index === currentMonth) option.selected = true;
+            monthSelect.add(option);
+        });
+
+        for (let year = 1980; year <= currentYear + 10; year++) {
+            const option = document.createElement("option");
+            option.value = year;
+            option.text = year;
+            if (year === currentYear) option.selected = true;
+            yearSelect.add(option);
+        }
+
+        monthSelect.addEventListener("change", updateCalendar);
+        yearSelect.addEventListener("change", updateCalendar);
+    }
+
+    function renderCalendar(month, year) {
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        const calendarBody = document.getElementById("calendarBody");
+        calendarBody.innerHTML = "";
+
+        let date = 1;
+        for (let i = 0; i < 6; i++) {
+            const row = document.createElement("tr");
+
+            for (let j = 0; j < 7; j++) {
+                const cell = document.createElement("td");
+                if (i === 0 && j < (firstDay || 7) - 1) {
+                    cell.appendChild(document.createTextNode(""));
+                } else if (date > daysInMonth) {
+                    break;
+                } else {
+                    cell.appendChild(document.createTextNode(date));
+                    if (date === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+                        cell.classList.add("today");
+                    }
+                    date++;
+                }
+                row.appendChild(cell);
+            }
+            calendarBody.appendChild(row);
+        }
+    }
+
+    function updateCalendar() {
+        const selectedMonth = parseInt(document.getElementById("monthSelect").value, 10);
+        const selectedYear = parseInt(document.getElementById("yearSelect").value, 10);
+        renderCalendar(selectedMonth, selectedYear);
+    }
+
+    populateSelectors();
+    renderCalendar(currentMonth, currentYear);
+</script>
+
+</body>
+</html>
